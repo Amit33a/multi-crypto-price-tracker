@@ -1,33 +1,32 @@
 # Import PostgreSQL adapter to connect Python with PostgreSQL database
 import psycopg2
 
-# Import os module to access environment variables
-import os
-
-# Import load_dotenv to read variables from the .env file
-from dotenv import load_dotenv
-
-
-# Load environment variables from the .env file
-load_dotenv()
+# Import database configuration values
+from config import (
+    DB_HOST,
+    DB_PORT,
+    DB_NAME,
+    DB_USER,
+    DB_PASSWORD
+)
 
 
 # Create and return a PostgreSQL database connection
-def create_connection():
+def get_connection():
 
     return psycopg2.connect(
-        host=os.getenv("DB_HOST"),
-        database=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        port=os.getenv("DB_PORT")
+        host=DB_HOST,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        port=DB_PORT
     )
 
 
 # Create the table if it does not already exist
 def create_table():
 
-    conn = create_connection()
+    conn = get_connection()
     cur = conn.cursor()
 
     cur.execute("""
@@ -48,7 +47,7 @@ def create_table():
 # Insert a cryptocurrency price into the database
 def insert_price(crypto_name, price):
 
-    conn = create_connection()
+    conn = get_connection()
     cur = conn.cursor()
 
     cur.execute("""
@@ -65,7 +64,7 @@ def insert_price(crypto_name, price):
 # Retrieve all cryptocurrency prices from the database
 def get_all_prices():
 
-    conn = create_connection()
+    conn = get_connection()
     cur = conn.cursor()
 
     cur.execute(
