@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: multi_crypto_postgres_automation
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - multi_crypto_postgres_data:/var/lib/postgresql/data
+volumes:
+  multi_crypto_postgres_data:
