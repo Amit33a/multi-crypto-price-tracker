@@ -6,9 +6,11 @@ create_table()
 
 crypto_prices = fetch_crypto_price()
 
-for coin, price in crypto_prices.items():
-    insert_price(coin, price)
+if crypto_prices:
 
-rows = get_all_prices()
+    for coin, price in crypto_prices.items():
+        insert_price(coin, price)
 
-print(rows)
+    rows = get_all_prices()
+
+    print(rows)

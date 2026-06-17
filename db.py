@@ -26,10 +26,11 @@ def get_connection():
 # Create the table if it does not already exist
 def create_table():
 
-    conn = get_connection()
-    cur = conn.cursor()
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
 
-    cur.execute("""
+        cur.execute("""
         CREATE TABLE IF NOT EXISTS multi_crypto_price (
             id SERIAL PRIMARY KEY,
             crypto_name VARCHAR(50) NOT NULL,
@@ -38,10 +39,15 @@ def create_table():
         )
     """)
 
-    conn.commit()
+        conn.commit()
 
-    cur.close()
-    conn.close()
+    except Exception as e: 
+        conn.rollback()
+        print(f"Error creating table: {e}")
+
+    finally:
+        cur.close()
+        conn.close()
 
 
 # Insert a cryptocurrency price into the database
@@ -50,15 +56,21 @@ def insert_price(crypto_name, price):
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("""
-        INSERT INTO multi_crypto_price (crypto_name, price_usd)
-        VALUES (%s, %s)
-    """, (crypto_name, price))
+    try:
+        cur.execute("""
+            INSERT INTO multi_crypto_price (crypto_name, price_usd)
+            VALUES (%s, %s)
+        """, (crypto_name, price))
 
-    conn.commit()
+        conn.commit()
 
-    cur.close()
-    conn.close()
+    except Exception as e:
+        conn.rollback()
+        print(f"Error inserting price: {e}")
+
+    finally:
+        cur.close()
+        conn.close()
 
 
 # Retrieve all cryptocurrency prices from the database
@@ -67,13 +79,18 @@ def get_all_prices():
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute(
-        "SELECT * FROM multi_crypto_price ORDER BY created_at DESC"
-    )
+    try:
+        cur.execute(
+            "SELECT * FROM multi_crypto_price ORDER BY created_at DESC"
+        )
 
-    rows = cur.fetchall()
+        return cur.fetchall()
+    
+    except Exception as e:
+        print(f"Error getting prices: {e}")
+        return []
 
-    cur.close()
-    conn.close()
+    finally:
+        cur.close()
+        conn.close()
 
-    return rows
