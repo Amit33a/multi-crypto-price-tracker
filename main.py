@@ -16,7 +16,12 @@ if crypto_prices:
 
     report = build_report(rows)
 
+    # PRINT
     print(report)
+
+    # SAVE TO FILE
+    with open("reports/crypto_report.txt", "w") as file:
+        file.write(report)
 
 else:
     print("Failed to fetch crypto prices.")
