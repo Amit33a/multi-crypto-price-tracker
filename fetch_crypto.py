@@ -1,41 +1,49 @@
-#Requests library send http request
+# Requests library sends HTTP requests
 import requests
 
-#The function created for reusable logic
+# Import application logger
+from logger_config import logger
+
+
+# Function created for reusable logic
 def fetch_crypto_price():
 
-    #API URL 
-    url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd'
+    # API URL
+    url = (
+        "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd"
+    )
 
-    #Handled request safely
     try:
 
-       #Call API and GET Response
-       response = requests.get(url,timeout=10)
+        # Log API request start
+        logger.info("Fetching cryptocurrency prices from CoinGecko API")
 
-       #Check status for API request
-       response.raise_for_status()
+        # Call API and GET response
+        response = requests.get(url, timeout=10)
 
-       #Convert to JSON
-       data = response.json()
-       
- 
-       #Extract Data
-       bitcoin_price = data.get("bitcoin", {}).get("usd")
-       ethereum_price = data.get("ethereum", {}).get("usd")
-       solana_price = data.get("solana", {}).get("usd")
-       binancecoin_price = data.get("binancecoin", {}).get("usd")
+        # Check HTTP status code
+        response.raise_for_status()
 
-       #Return price
-       return {"bitcoin": bitcoin_price,
-            "ethereum": ethereum_price,
-            "solana": solana_price,
-            "binancecoin": binancecoin_price
-            }
+        # Convert response to JSON
+        data = response.json()
 
-#Handled request failure
+        # Log successful API response
+        logger.info("Successfully fetched cryptocurrency prices")
+
+        # Return crypto prices safely
+        return {
+            "bitcoin": data.get("bitcoin", {}).get("usd"),
+            "ethereum": data.get("ethereum", {}).get("usd"),
+            "solana": data.get("solana", {}).get("usd"),
+            "binancecoin": data.get("binancecoin", {}).get("usd"),
+        }
+
     except requests.exceptions.RequestException as error:
+
+        # Log API failure
+        logger.error(f"Failed to fetch crypto prices: {error}")
+
         print(f"Error Type: {type(error).__name__}")
         print(f"Error Message: {error}")
-        return None
 
+        return None
