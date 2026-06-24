@@ -2,13 +2,10 @@
 import psycopg2
 
 # Import database configuration values
-from config import (
-    DB_HOST,
-    DB_PORT,
-    DB_NAME,
-    DB_USER,
-    DB_PASSWORD
-)
+from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+
+# Import application logger
+from logger_config import logger
 
 
 # Create and return a PostgreSQL database connection
@@ -27,6 +24,8 @@ def get_connection():
 def create_table():
 
     try:
+        logger.info("Creating database table")
+
         conn = get_connection()
         cur = conn.cursor()
 
@@ -37,12 +36,17 @@ def create_table():
             price_usd NUMERIC(18,8) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-    """)
+        """)
 
         conn.commit()
 
-    except Exception as e: 
+        logger.info("Database table created successfully")
+
+    except Exception as e:
         conn.rollback()
+
+        logger.error(f"Error creating table: {e}")
+
         print(f"Error creating table: {e}")
 
     finally:
@@ -51,21 +55,28 @@ def create_table():
 
 
 # Insert a cryptocurrency price into the database
-def insert_price(crypto_name, price):
+def insert_price(name, price):
 
     conn = get_connection()
     cur = conn.cursor()
 
     try:
+        logger.info(f"Inserting {name} price into database")
+
         cur.execute("""
             INSERT INTO multi_crypto_price (crypto_name, price_usd)
             VALUES (%s, %s)
-        """, (crypto_name, price))
+        """, (name, price))
 
         conn.commit()
 
+        logger.info(f"Successfully inserted {name} price")
+
     except Exception as e:
         conn.rollback()
+
+        logger.error(f"Error inserting {name} price: {e}")
+
         print(f"Error inserting price: {e}")
 
     finally:
@@ -80,17 +91,25 @@ def get_all_prices():
     cur = conn.cursor()
 
     try:
+        logger.info("Retrieving cryptocurrency prices from database")
+
         cur.execute(
             "SELECT * FROM multi_crypto_price ORDER BY created_at DESC"
         )
 
-        return cur.fetchall()
-    
+        rows = cur.fetchall()
+
+        logger.info(f"Retrieved {len(rows)} records from database")
+
+        return rows
+
     except Exception as e:
+        logger.error(f"Error getting prices: {e}")
+
         print(f"Error getting prices: {e}")
+
         return []
 
     finally:
         cur.close()
         conn.close()
-
