@@ -1,9 +1,18 @@
 from datetime import datetime
 
+from logger_config import logger
+
+
 def build_report(rows):
+
     # Return message if no data exists
     if not rows:
+        logger.warning("Report generation skipped: no data available")
         return "No data available."
+
+    logger.info(
+        f"Generating report with {len(rows)} database records"
+    )
 
     report = []
 
@@ -21,5 +30,7 @@ def build_report(rows):
         price = float(row[2])
 
         report.append(f"{name:<12} ${price:.2f}")
+
+    logger.info("Report generated successfully")
 
     return "\n".join(report)
