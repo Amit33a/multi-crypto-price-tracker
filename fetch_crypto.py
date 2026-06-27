@@ -57,5 +57,9 @@ def fetch_crypto_price():
 
                 return None
 
-            # Wait before the next retry
-            time.sleep(2)
+            # Calculate exponential backoff delay
+            delay = 2 ** (attempt - 1)
+
+            logger.info(f"Waiting {delay} seconds before retrying...")
+
+            time.sleep(delay)
