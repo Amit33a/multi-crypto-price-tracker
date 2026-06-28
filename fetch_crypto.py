@@ -7,6 +7,9 @@ import time
 # Import application logger
 from logger_config import logger
 
+#Import timeout and retry
+from config import REQUEST_TIMEOUT, MAX_RETRIES
+
 
 # Fetch cryptocurrency prices from CoinGecko
 def fetch_crypto_price():
@@ -15,18 +18,15 @@ def fetch_crypto_price():
     url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd"
     
 
-    # Maximum retry attempts
-    max_retries = 3
-
     # Attempt the request multiple times
-    for attempt in range(1, max_retries + 1):
+    for attempt in range(1, MAX_RETRIES + 1):
 
         try:
 
-            logger.info(f"API request to CoinGecko (Attempt {attempt}/{max_retries})")
+            logger.info(f"API request to CoinGecko (Attempt {attempt}/{MAX_RETRIES})")
 
             # Send HTTP request
-            response = requests.get(url, timeout=10)
+            response = requests.get(url, timeout=REQUEST_TIMEOUT)
 
             # Raise an exception for HTTP errors
             response.raise_for_status()
@@ -51,7 +51,7 @@ def fetch_crypto_price():
             print(f"Attempt {attempt} failed: {error}")
 
             # Stop retrying after the final attempt
-            if attempt == max_retries:
+            if attempt == MAX_RETRIES:
 
                 logger.error("Maximum retry attempts reached. Unable to fetch cryptocurrency prices.")
 
