@@ -7,7 +7,7 @@ import time
 # Import application logger
 from logger_config import logger
 
-#Import timeout and retry
+# Import timeout and retry
 from config import REQUEST_TIMEOUT, MAX_RETRIES
 
 
@@ -36,13 +36,27 @@ def fetch_crypto_price():
 
             logger.info("Successfully fetched cryptocurrency prices")
 
-            # Return cryptocurrency prices safely
-            return {
+            # Extract cryptocurrency prices safely
+            prices = {
                 "bitcoin": data.get("bitcoin", {}).get("usd"),
                 "ethereum": data.get("ethereum", {}).get("usd"),
                 "solana": data.get("solana", {}).get("usd"),
                 "binancecoin": data.get("binancecoin", {}).get("usd"),
             }
+
+            # Find missing cryptocurrency prices
+            missing_prices = [coin for coin, price in prices.items() if price is None]
+
+            # Validate API response
+            if missing_prices:
+
+                logger.error(f"Incomplete API response. Missing prices: {', '.join(missing_prices)}")
+
+                return None
+
+            logger.info("Successfully fetched cryptocurrency prices")
+
+            return prices 
 
         except requests.exceptions.RequestException as error:
 
