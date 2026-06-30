@@ -1,6 +1,6 @@
 # Multi Crypto Price Tracker
 
-A Python backend project that fetches real-time cryptocurrency prices from the CoinGecko API and stores them in a PostgreSQL database running inside Docker for historical tracking and analysis.
+A Python backend project that fetches real-time cryptocurrency prices from the CoinGecko API, stores them in a PostgreSQL database running inside Docker, generates formatted reports, and logs application activity for monitoring and debugging.
 
 ---
 
@@ -9,11 +9,14 @@ A Python backend project that fetches real-time cryptocurrency prices from the C
 This project demonstrates how to:
 
 - Consume data from a public REST API.
-- Store data in PostgreSQL.
+- Store cryptocurrency prices in PostgreSQL.
+- Generate formatted reports from stored data.
+- Log application events and errors.
 - Manage configuration using environment variables.
 - Run PostgreSQL inside Docker.
 - Organize Python code into reusable modules.
 - Handle database transactions safely.
+- Build a modular backend application following production-style practices.
 
 ---
 
@@ -27,7 +30,7 @@ This project demonstrates how to:
   - Ethereum (ETH)
   - Solana (SOL)
   - Binance Coin (BNB)
-- HTTP request handling using the Requests library.
+- HTTP request handling using Requests.
 - Request timeout support.
 - HTTP status validation.
 - Safe JSON extraction using `.get()` methods.
@@ -37,16 +40,35 @@ This project demonstrates how to:
 - PostgreSQL integration using psycopg2.
 - Dockerized PostgreSQL using Docker Compose.
 - Automatic database table creation.
-- Historical price storage with timestamps.
-- Retrieve previously stored cryptocurrency prices.
+- Historical cryptocurrency price storage.
+- Timestamp for every stored record.
+- Retrieve historical price data.
 - Transaction management using commit and rollback.
-- Proper database connection cleanup.
+- Automatic cleanup of database resources.
+
+### Report Generation
+
+- Generate formatted cryptocurrency price reports.
+- Display reports in the terminal.
+- Save reports as text files.
+- Timestamp every generated report.
+- Automatically create readable report output.
+
+### Logging System
+
+- Centralized logging configuration.
+- INFO, WARNING and ERROR log levels.
+- Database operation logging.
+- API request logging.
+- Report generation logging.
+- Application lifecycle logging.
+- Log output stored in `logs/app.log`.
 
 ### Configuration Management
 
 - Environment variables managed through `.env`.
 - Centralized configuration using `config.py`.
-- Safe sharing of project configuration through `.env.example`.
+- Safe configuration sharing through `.env.example`.
 
 ---
 
@@ -57,8 +79,13 @@ multi-crypto-price-tracker/
 │
 ├── fetch_crypto.py         # CoinGecko API integration
 ├── db.py                   # PostgreSQL database operations
+├── report.py               # Report generation
+├── logger_config.py        # Logging configuration
 ├── config.py               # Environment configuration
 ├── main.py                 # Application entry point
+│
+├── reports/                # Generated reports
+├── logs/                   # Application logs
 │
 ├── requirements.txt
 ├── docker-compose.yml
@@ -78,6 +105,7 @@ multi-crypto-price-tracker/
 - Docker
 - Docker Compose
 - python-dotenv
+- Python Logging
 
 ---
 
@@ -100,9 +128,9 @@ Create a `.env` file in the project root:
 
 ```env
 DB_HOST=localhost
-DB_PORT=5438
-DB_USER=postgres
-DB_PASSWORD=your_password
+DB_PORT=5432
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
 DB_NAME=crypto_tracker
 ```
 
@@ -110,10 +138,10 @@ DB_NAME=crypto_tracker
 
 ```env
 DB_HOST=localhost
-DB_PORT=5438
+DB_PORT=5432
 DB_USER=your_database_user
 DB_PASSWORD=your_database_password
-DB_NAME=your_database_name
+DB_NAME=crypto_tracker
 ```
 
 ---
@@ -145,7 +173,7 @@ docker compose down
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone <repository-url>
 cd multi-crypto-price-tracker
 ```
 
@@ -157,13 +185,13 @@ python -m venv .venv
 
 ### 3. Activate the Virtual Environment
 
-Windows:
+Windows
 
 ```bash
 .venv\Scripts\activate
 ```
 
-Linux / macOS:
+Linux / macOS
 
 ```bash
 source .venv/bin/activate
@@ -193,36 +221,71 @@ python main.py
 
 ---
 
-## Example Output
+## Example Console Report
 
 ```text
-[
- (4, 'binancecoin', Decimal('589.05000000'), datetime.datetime(2026, 6, 18, 10, 33, 19, 552033)),
- (3, 'solana', Decimal('71.37000000'), datetime.datetime(2026, 6, 18, 10, 33, 19, 396641)),
- (2, 'ethereum', Decimal('1744.35000000'), datetime.datetime(2026, 6, 18, 10, 33, 19, 249610)),
- (1, 'bitcoin', Decimal('63955.00000000'), datetime.datetime(2026, 6, 18, 10, 33, 19, 138817))
-]
+CRYPTO PRICE REPORT
+==============================
+Generated at: 2026-06-30 18:20:51
+
+Bitcoin      $63955.00
+Ethereum     $1744.35
+Solana       $71.37
+Binancecoin  $589.05
+```
+
+---
+
+## Generated Files
+
+### Report
+
+```
+reports/crypto_report.txt
+```
+
+### Logs
+
+```
+logs/app.log
+```
+
+Example log output:
+
+```text
+2026-06-30 18:20:51 - INFO - Application started
+2026-06-30 18:20:52 - INFO - Successfully fetched cryptocurrency prices
+2026-06-30 18:20:52 - INFO - Creating database table
+2026-06-30 18:20:52 - INFO - Successfully inserted bitcoin price
+2026-06-30 18:20:53 - INFO - Report generated successfully
+2026-06-30 18:20:53 - INFO - Application finished execution
 ```
 
 ---
 
 ## Error Handling
 
-The project currently includes:
-
 ### API Errors
 
-- Network connection errors
-- Request timeout errors
+- Connection errors
+- Timeout errors
 - HTTP status validation
 - Safe JSON extraction
 
 ### Database Errors
 
-- Database connection failures
+- Connection failures
 - SQL execution errors
-- Transaction rollback on failed write operations
-- Automatic resource cleanup using `finally`
+- Transaction rollback
+- Automatic resource cleanup
+
+### Logging
+
+- Application events
+- Database operations
+- Report generation
+- Error tracking
+- Warning messages
 
 ---
 
@@ -231,13 +294,16 @@ The project currently includes:
 This project was built to practice:
 
 - REST API integration
-- Working with JSON data
+- JSON data processing
 - PostgreSQL database operations
 - Docker fundamentals
 - Environment variable management
-- Python modularization
+- Python modular programming
+- Report generation
+- Application logging
 - Database transaction handling
-- Basic backend application architecture
+- Error handling
+- Backend project architecture
 
 ---
 
@@ -245,14 +311,12 @@ This project was built to practice:
 
 Planned enhancements include:
 
-- CSV export functionality
-- Logging system
-- Automated scheduled execution
-- Daily price reports
-- Email notifications
-- Data analytics and summaries
-- Streamlit dashboard
-- Containerized application deployment
-
-
-
+- Retry and fallback mechanisms
+- Email report automation
+- Scheduled daily execution
+- CSV and Excel export
+- Summary statistics
+- Interactive dashboard (Streamlit)
+- Dockerized application deployment
+- Unit and integration tests
+- CI/CD pipeline using GitHub Actions
