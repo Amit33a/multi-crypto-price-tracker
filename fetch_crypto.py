@@ -57,7 +57,15 @@ def fetch_crypto_price():
             logger.info("Successfully fetched cryptocurrency prices")
 
             return prices 
+        
+        # Handle invalid JSON responses
+        except ValueError as error:
 
+            logger.error(f"Invalid JSON response received: {error}")
+
+            return None        
+
+        # Handle network-related errors
         except requests.exceptions.RequestException as error:
 
             logger.warning(f"Attempt {attempt} failed: {error}")
