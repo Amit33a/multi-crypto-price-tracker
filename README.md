@@ -1,6 +1,6 @@
 # Multi Crypto Price Tracker
 
-A Python backend project that fetches real-time cryptocurrency prices from the CoinGecko API, stores them in a PostgreSQL database running inside Docker, generates formatted reports, and logs application activity for monitoring and debugging.
+A Python backend project that fetches real-time cryptocurrency prices from the CoinGecko API, stores them in a PostgreSQL database running inside Docker, generates formatted reports, logs application activity, and implements retry mechanisms to improve application reliability.
 
 ---
 
@@ -9,8 +9,10 @@ A Python backend project that fetches real-time cryptocurrency prices from the C
 This project demonstrates how to:
 
 - Consume data from a public REST API.
+- Handle temporary API failures using retry logic.
+- Validate API responses before processing data.
 - Store cryptocurrency prices in PostgreSQL.
-- Generate formatted reports from stored data.
+- Generate formatted reports.
 - Log application events and errors.
 - Manage configuration using environment variables.
 - Run PostgreSQL inside Docker.
@@ -34,6 +36,11 @@ This project demonstrates how to:
 - Request timeout support.
 - HTTP status validation.
 - Safe JSON extraction using `.get()` methods.
+- Automatic retry mechanism for temporary API failures.
+- Configurable retry attempts.
+- Delay between retry attempts.
+- Validation of API responses before processing.
+- Detection of incomplete cryptocurrency data.
 
 ### Database Integration
 
@@ -58,8 +65,9 @@ This project demonstrates how to:
 
 - Centralized logging configuration.
 - INFO, WARNING and ERROR log levels.
-- Database operation logging.
 - API request logging.
+- Retry attempt logging.
+- Database operation logging.
 - Report generation logging.
 - Application lifecycle logging.
 - Log output stored in `logs/app.log`.
@@ -106,6 +114,7 @@ multi-crypto-price-tracker/
 - Docker Compose
 - python-dotenv
 - Python Logging
+- Time Module
 
 ---
 
@@ -254,6 +263,7 @@ Example log output:
 
 ```text
 2026-06-30 18:20:51 - INFO - Application started
+2026-06-30 18:20:51 - INFO - API request to CoinGecko (Attempt 1/3)
 2026-06-30 18:20:52 - INFO - Successfully fetched cryptocurrency prices
 2026-06-30 18:20:52 - INFO - Creating database table
 2026-06-30 18:20:52 - INFO - Successfully inserted bitcoin price
@@ -268,9 +278,15 @@ Example log output:
 ### API Errors
 
 - Connection errors
+- DNS resolution failures
 - Timeout errors
 - HTTP status validation
 - Safe JSON extraction
+- Automatic retry mechanism
+- Delay between retry attempts
+- Maximum retry limit
+- API response validation
+- Missing cryptocurrency detection
 
 ### Database Errors
 
@@ -282,6 +298,8 @@ Example log output:
 ### Logging
 
 - Application events
+- API requests
+- Retry attempts
 - Database operations
 - Report generation
 - Error tracking
@@ -294,6 +312,8 @@ Example log output:
 This project was built to practice:
 
 - REST API integration
+- HTTP request handling
+- Retry and resilience patterns
 - JSON data processing
 - PostgreSQL database operations
 - Docker fundamentals
@@ -311,7 +331,6 @@ This project was built to practice:
 
 Planned enhancements include:
 
-- Retry and fallback mechanisms
 - Email report automation
 - Scheduled daily execution
 - CSV and Excel export
