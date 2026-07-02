@@ -3,6 +3,7 @@ from fetch_crypto import fetch_crypto_price
 from db import create_table, insert_price, get_all_prices
 
 from logger_config import logger
+from email_sender import send_email
 
 
 def main():
@@ -40,6 +41,9 @@ def main():
                 file.write(report)
 
             logger.info("Report saved successfully")
+
+            # Step 8: Send a test report by email
+            send_email( subject="Crypto Price Report", body="This is a test email from the Multi Crypto Price Tracker.")
 
         else:
             logger.warning("Failed to fetch crypto prices")

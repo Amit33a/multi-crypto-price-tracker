@@ -2,10 +2,13 @@
 import smtplib
 
 # Import email configuration
-from config import EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASSWORD
+from config import EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASSWORD, EMAIL_RECEIVER
 
 # Import application logger
 from logger_config import logger
+
+# Import EmailMessage to create and format email messages
+from email.message import EmailMessage
 
 
 def connect_email_server():
@@ -44,6 +47,57 @@ def connect_email_server():
         return None
 
 
-def send_email():
-    pass
+# Create and send a plain text email
+def send_email(subject, body):
+    """
+    Send a plain text email.
+    """
+
+    # Connect to the email server
+    server = connect_email_server()
+
+    # Stop if the connection could not be established
+    if not server:
+        return False
+
+    try:
+
+        logger.info("Creating email message")
+
+        # Create a new email message
+        message = EmailMessage()
+
+        # Set email details
+        message["Subject"] = subject
+        message["From"] = EMAIL_USER
+        message["To"] = EMAIL_RECEIVER
+
+        # Add email body
+        message.set_content(body)
+
+        logger.info("Sending email")
+
+        # Send the email
+        server.send_message(message)
+
+        logger.info("Email sent successfully")
+
+        return True
+
+    except Exception as error:
+
+        logger.error(
+            f"Failed to send email: {error}"
+        )
+
+        print(f"Email error: {error}")
+
+        return False
+
+    finally:
+
+        # Close the connection to the email server
+        server.quit()
+
+        logger.info("Disconnected from email server")
     
