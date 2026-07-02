@@ -42,9 +42,12 @@ def main():
 
             logger.info("Report saved successfully")
 
-            # Step 8: Send a test report by email
-            send_email( subject="Crypto Price Report", body="This is a test email from the Multi Crypto Price Tracker.")
-
+            # Step 8: Send report by email
+            if send_email(subject="Daily Crypto Price Report", body=report):
+               logger.info("Report email sent successfully")
+            else:
+                logger.warning("Report email could not be sent")
+                
         else:
             logger.warning("Failed to fetch crypto prices")
 
