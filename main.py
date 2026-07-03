@@ -43,7 +43,8 @@ def main():
             logger.info("Report saved successfully")
 
             # Step 8: Send report by email
-            if send_email(subject="Daily Crypto Price Report", body=report):
+            if send_email(subject="Daily Crypto Price Report", body="Please find today's cryptocurrency report attached.",
+                            attachment_path="reports/crypto_report.txt"):
                logger.info("Report email sent successfully")
             else:
                 logger.warning("Report email could not be sent")

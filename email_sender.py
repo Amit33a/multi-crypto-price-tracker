@@ -1,6 +1,9 @@
 # Import SMTP library
 import smtplib
 
+# Import operating system utilities
+import os
+
 # Import email configuration
 from config import EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASSWORD, EMAIL_RECEIVER
 
@@ -48,7 +51,7 @@ def connect_email_server():
 
 
 # Create and send a plain text email
-def send_email(subject, body):
+def send_email(subject, body, attachment_path=None):
     """
     Send a plain text email.
     """
@@ -74,6 +77,17 @@ def send_email(subject, body):
 
         # Add email body
         message.set_content(body)
+
+        # Attach report file if provided
+        if attachment_path:
+
+            logger.info(f"Attaching file: {attachment_path}")
+
+            with open(attachment_path, "rb") as file:
+
+                message.add_attachment(file.read(), maintype="text", subtype="plain",
+                    filename=os.path.basename(attachment_path)
+                )
 
         logger.info("Sending email")
 
