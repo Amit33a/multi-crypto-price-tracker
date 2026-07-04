@@ -1,6 +1,6 @@
 # Multi Crypto Price Tracker
 
-A Python backend automation project that fetches real-time cryptocurrency prices from the CoinGecko API, stores them in a PostgreSQL database running inside Docker, generates formatted reports, sends automated email reports, logs application activity, and implements retry mechanisms to improve application reliability.
+A Python backend automation project that fetches real-time cryptocurrency prices from the CoinGecko API, stores them in a PostgreSQL database running inside Docker, generates formatted reports, sends automated email reports, logs application activity, implements retry mechanisms, and supports automated execution using Windows Task Scheduler.
 
 ---
 
@@ -17,6 +17,7 @@ This project demonstrates how to:
 * Log application events and errors.
 * Manage configuration using environment variables.
 * Run PostgreSQL inside Docker.
+* Automate application execution using Windows Task Scheduler.
 * Organize Python code into reusable modules.
 * Handle database transactions safely.
 * Build a modular backend application following production-style practices.
@@ -80,6 +81,19 @@ This project demonstrates how to:
 
 ---
 
+## Scheduling
+
+* Automated execution using Windows Task Scheduler.
+* Runs without user interaction.
+* Automatically fetches the latest cryptocurrency prices.
+* Automatically updates the PostgreSQL database.
+* Automatically generates reports.
+* Automatically emails the generated report.
+* Supports daily or custom execution schedules.
+* Includes setup documentation for Task Scheduler.
+
+---
+
 ## Logging System
 
 * Centralized logging configuration.
@@ -107,16 +121,18 @@ This project demonstrates how to:
 ```text
 multi-crypto-price-tracker/
 │
-├── fetch_crypto.py         # CoinGecko API integration
-├── db.py                   # PostgreSQL database operations
-├── report.py               # Report generation
-├── email_sender.py         # Email automation
-├── logger_config.py        # Logging configuration
-├── config.py               # Environment configuration
-├── main.py                 # Application entry point
+├── fetch_crypto.py
+├── db.py
+├── report.py
+├── email_sender.py
+├── logger_config.py
+├── config.py
+├── main.py
 │
-├── reports/                # Generated reports
-├── logs/                   # Application logs
+├── reports/
+├── logs/
+├── docs/
+│   └── windows_task_scheduler.md
 │
 ├── requirements.txt
 ├── docker-compose.yml
@@ -139,6 +155,7 @@ multi-crypto-price-tracker/
 * Python Logging
 * smtplib
 * EmailMessage
+* Windows Task Scheduler
 * Time Module
 
 ---
@@ -273,6 +290,27 @@ python main.py
 
 ---
 
+# Automating the Application
+
+The project supports automatic execution using **Windows Task Scheduler**.
+
+Once scheduled, each execution will:
+
+1. Fetch cryptocurrency prices from the CoinGecko API.
+2. Store the data in PostgreSQL.
+3. Generate a formatted report.
+4. Save the report to the `reports` directory.
+5. Send the report via email.
+6. Log the entire execution.
+
+Detailed scheduling instructions are available in:
+
+```text
+docs/windows_task_scheduler.md
+```
+
+---
+
 # Example Console Report
 
 ```text
@@ -300,20 +338,6 @@ reports/crypto_report.txt
 
 ```text
 logs/app.log
-```
-
-Example log output:
-
-```text
-2026-06-30 18:20:51 - INFO - Application started
-2026-06-30 18:20:51 - INFO - API request to CoinGecko (Attempt 1/3)
-2026-06-30 18:20:52 - INFO - Successfully fetched cryptocurrency prices
-2026-06-30 18:20:52 - INFO - Creating database table
-2026-06-30 18:20:52 - INFO - Successfully inserted bitcoin price
-2026-06-30 18:20:53 - INFO - Report generated successfully
-2026-06-30 18:20:53 - INFO - Creating email message
-2026-06-30 18:20:53 - INFO - Email sent successfully
-2026-06-30 18:20:53 - INFO - Application finished execution
 ```
 
 ---
@@ -374,6 +398,7 @@ This project was built to practice:
 * Python modular programming
 * Report generation
 * SMTP email automation
+* Windows Task Scheduler
 * File attachment handling
 * Application logging
 * Database transaction handling
@@ -386,7 +411,6 @@ This project was built to practice:
 
 Planned enhancements include:
 
-* Scheduled daily execution
 * CSV and Excel export
 * HTML email reports
 * Summary statistics
@@ -394,4 +418,5 @@ Planned enhancements include:
 * Dockerized application deployment
 * Unit and integration tests
 * CI/CD pipeline using GitHub Actions
+* Linux cron scheduling
 * Containerized application with Docker
