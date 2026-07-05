@@ -3,7 +3,7 @@ from datetime import datetime
 from logger_config import logger
 
 
-def build_report(rows):
+def build_report(rows: list) -> str:
 
     # Return message if no data exists
     if not rows:

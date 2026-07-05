@@ -51,7 +51,7 @@ def connect_email_server():
 
 
 # Create and send a plain text email
-def send_email(subject, body, attachment_path=None):
+def send_email(subject, body, attachment_path=None) -> bool:
     """
     Send a plain text email.
     """

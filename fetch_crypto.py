@@ -12,8 +12,8 @@ from config import REQUEST_TIMEOUT, MAX_RETRIES
 
 
 # Fetch cryptocurrency prices from CoinGecko
-def fetch_crypto_price():
-
+def fetch_crypto_price() -> dict[str, float] | None:
+    
     # CoinGecko API endpoint
     url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd"
     

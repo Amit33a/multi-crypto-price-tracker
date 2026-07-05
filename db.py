@@ -52,7 +52,7 @@ def create_table():
 
 
 # Insert a cryptocurrency price into the database
-def insert_price(name, price):
+def insert_price(name: str, price: float) -> None:
 
     try:
         logger.info(f"Inserting {name} price into database")
