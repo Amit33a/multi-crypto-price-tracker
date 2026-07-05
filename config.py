@@ -69,3 +69,9 @@ EMAIL_PORT = get_required_int("EMAIL_PORT")
 EMAIL_USER = get_required_env("EMAIL_USER")
 EMAIL_PASSWORD = get_required_env("EMAIL_PASSWORD")
 EMAIL_RECEIVER = get_required_env("EMAIL_RECEIVER")
+
+
+# Report configuration
+REPORT_DIRECTORY = "reports"
+REPORT_FILE = "crypto_report.txt"
+REPORT_PATH = f"{REPORT_DIRECTORY}/{REPORT_FILE}"

@@ -4,6 +4,7 @@ from db import create_table, insert_price, get_all_prices
 
 from logger_config import logger
 from email_sender import send_email
+from config import REPORT_PATH
 
 
 def main():
@@ -37,14 +38,14 @@ def main():
             print(report)
 
             # Step 7: Save report to file
-            with open("reports/crypto_report.txt", "w") as file:
-                file.write(report)
+            with open(REPORT_PATH, "w") as file:
+               file.write(report)
 
             logger.info("Report saved successfully")
 
             # Step 8: Send report by email
             if send_email(subject="Daily Crypto Price Report", body="Please find today's cryptocurrency report attached.",
-                            attachment_path="reports/crypto_report.txt"):
+                            attachment_path=REPORT_PATH):
                logger.info("Report email sent successfully")
             else:
                 logger.warning("Report email could not be sent")
