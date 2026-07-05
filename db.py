@@ -26,24 +26,22 @@ def create_table():
     try:
         logger.info("Creating database table")
 
-        conn = get_connection()
-        cur = conn.cursor()
+        with get_connection() as conn:
 
-        cur.execute("""
-        CREATE TABLE IF NOT EXISTS multi_crypto_price (
-            id SERIAL PRIMARY KEY,
-            crypto_name VARCHAR(50) NOT NULL,
-            price_usd NUMERIC(18,8) NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-        """)
+            cur = conn.cursor()
 
-        conn.commit()
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS multi_crypto_price (
+                    id SERIAL PRIMARY KEY,
+                    crypto_name VARCHAR(50) NOT NULL,
+                    price_usd NUMERIC(18,8) NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
 
-        logger.info("Database table created successfully")
+            logger.info("Database table created successfully")
 
     except Exception as e:
-        conn.rollback()
 
         logger.error(f"Error creating table: {e}")
 
@@ -51,29 +49,26 @@ def create_table():
 
     finally:
         cur.close()
-        conn.close()
 
 
 # Insert a cryptocurrency price into the database
 def insert_price(name, price):
 
-    conn = get_connection()
-    cur = conn.cursor()
-
     try:
         logger.info(f"Inserting {name} price into database")
 
-        cur.execute("""
-            INSERT INTO multi_crypto_price (crypto_name, price_usd)
-            VALUES (%s, %s)
-        """, (name, price))
+        with get_connection() as conn:
 
-        conn.commit()
+            cur = conn.cursor()
 
-        logger.info(f"Successfully inserted {name} price")
+            cur.execute("""
+                INSERT INTO multi_crypto_price (crypto_name, price_usd)
+                VALUES (%s, %s)
+            """, (name, price))
+
+            logger.info(f"Successfully inserted {name} price")
 
     except Exception as e:
-        conn.rollback()
 
         logger.error(f"Error inserting {name} price: {e}")
 
@@ -81,29 +76,30 @@ def insert_price(name, price):
 
     finally:
         cur.close()
-        conn.close()
 
 
 # Retrieve all cryptocurrency prices from the database
 def get_all_prices():
 
-    conn = get_connection()
-    cur = conn.cursor()
-
     try:
         logger.info("Retrieving cryptocurrency prices from database")
 
-        cur.execute(
-            "SELECT * FROM multi_crypto_price ORDER BY created_at DESC"
-        )
+        with get_connection() as conn:
 
-        rows = cur.fetchall()
+            cur = conn.cursor()
 
-        logger.info(f"Retrieved {len(rows)} records from database")
+            cur.execute(
+                "SELECT * FROM multi_crypto_price ORDER BY created_at DESC"
+            )
 
-        return rows
+            rows = cur.fetchall()
+
+            logger.info(f"Retrieved {len(rows)} records from database")
+
+            return rows
 
     except Exception as e:
+
         logger.error(f"Error getting prices: {e}")
 
         print(f"Error getting prices: {e}")
@@ -112,4 +108,3 @@ def get_all_prices():
 
     finally:
         cur.close()
-        conn.close()
