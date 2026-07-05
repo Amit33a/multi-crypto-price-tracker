@@ -9,21 +9,63 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# Database configuration values
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
+# Get a required environment variable
+def get_required_env(name):
+    """
+    Return the value of a required environment variable.
+
+    Raises:
+        RuntimeError: If the environment variable is missing.
+    """
+
+    value = os.getenv(name)
+
+    if not value:
+        raise RuntimeError(
+            f"Missing required environment variable: {name}"
+        )
+
+    return value
 
 
-REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", 10))
-MAX_RETRIES = int(os.getenv("MAX_RETRIES", 3))
+# Get a required integer environment variable
+def get_required_int(name):
+    """
+    Return a required integer environment variable.
+
+    Raises:
+        RuntimeError: If the variable is missing.
+        ValueError: If the value is not a valid integer.
+    """
+
+    value = get_required_env(name)
+
+    try:
+        return int(value)
+
+    except ValueError:
+        raise ValueError(
+            f"Invalid integer value for environment variable '{name}': {value}"
+        )
 
 
-# Email configuration values
-EMAIL_HOST = os.getenv("EMAIL_HOST")
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
-EMAIL_USER = os.getenv("EMAIL_USER")
-EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-EMAIL_RECEIVER = os.getenv("EMAIL_RECEIVER")
+# Database Configuration
+DB_HOST = get_required_env("DB_HOST")
+DB_PORT = get_required_int("DB_PORT")
+DB_NAME = get_required_env("DB_NAME")
+DB_USER = get_required_env("DB_USER")
+DB_PASSWORD = get_required_env("DB_PASSWORD")
+
+
+# API Configuration
+REQUEST_TIMEOUT = get_required_int("REQUEST_TIMEOUT")
+MAX_RETRIES = get_required_int("MAX_RETRIES")
+
+
+
+# Email Configuration
+EMAIL_HOST = get_required_env("EMAIL_HOST")
+EMAIL_PORT = get_required_int("EMAIL_PORT")
+EMAIL_USER = get_required_env("EMAIL_USER")
+EMAIL_PASSWORD = get_required_env("EMAIL_PASSWORD")
+EMAIL_RECEIVER = get_required_env("EMAIL_RECEIVER")
