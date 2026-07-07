@@ -38,3 +38,22 @@ def test_fetch_crypto_price_request_failure(mock_get):
     result = fetch_crypto_price()
 
     assert result is None
+
+
+@patch("fetch_crypto.requests.get")
+def test_fetch_crypto_price_with_missing_data(mock_get):
+
+    mock_response = mock_get.return_value
+
+    mock_response.raise_for_status.return_value = None
+
+    mock_response.json.return_value = {
+        "bitcoin": {"usd": 65000},
+        "ethereum": {"usd": 3200},
+        "solana": {},
+        "binancecoin": {"usd": 720},
+    }
+
+    result = fetch_crypto_price()
+
+    assert result is None
