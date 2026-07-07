@@ -57,3 +57,19 @@ def test_fetch_crypto_price_with_missing_data(mock_get):
     result = fetch_crypto_price()
 
     assert result is None
+
+
+@patch("fetch_crypto.requests.get")
+def test_fetch_crypto_price_invalid_json(mock_get):
+
+    mock_response = mock_get.return_value
+
+    mock_response.raise_for_status.return_value = None
+
+    mock_response.json.side_effect = ValueError(
+        "Invalid JSON"
+    )
+
+    result = fetch_crypto_price()
+
+    assert result is None
