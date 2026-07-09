@@ -23,6 +23,8 @@ def get_connection():
 # Create the table if it does not already exist
 def create_table():
 
+    cur = None
+
     try:
         logger.info("Creating database table")
 
@@ -48,11 +50,16 @@ def create_table():
         print(f"Error creating table: {e}")
 
     finally:
-        cur.close()
+
+        if cur:
+            cur.close()
+            
 
 
 # Insert a cryptocurrency price into the database
 def insert_price(name: str, price: float) -> None:
+
+    cur = None
 
     try:
         logger.info(f"Inserting {name} price into database")
@@ -75,11 +82,16 @@ def insert_price(name: str, price: float) -> None:
         print(f"Error inserting price: {e}")
 
     finally:
-        cur.close()
+
+        if cur:
+            cur.close()
+
 
 
 # Retrieve all cryptocurrency prices from the database
 def get_all_prices():
+
+    cur = None
 
     try:
         logger.info("Retrieving cryptocurrency prices from database")
@@ -107,4 +119,6 @@ def get_all_prices():
         return []
 
     finally:
-        cur.close()
+
+        if cur:
+            cur.close()
