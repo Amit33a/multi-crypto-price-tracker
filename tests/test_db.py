@@ -5,6 +5,7 @@ from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 from db import get_connection
 from db import insert_price
 from db import get_all_prices
+import psycopg2
 
 
 @patch("db.psycopg2.connect")
@@ -84,3 +85,16 @@ def test_get_all_prices(mock_connect):
 
     # Verify cursor cleanup
     mock_cursor.close.assert_called_once()
+
+
+@patch("db.psycopg2.connect")
+def test_get_all_prices_connection_failure(mock_connect):
+
+    # Simulate a database connection failure
+    mock_connect.side_effect = psycopg2.Error(
+        "Unable to connect to database"
+    )
+
+    rows = get_all_prices()
+
+    assert rows == []
