@@ -1,6 +1,6 @@
 # Multi Crypto Price Tracker
 
-A Python backend automation project that fetches real-time cryptocurrency prices from the CoinGecko API, stores them in a PostgreSQL database running inside Docker, generates formatted reports, sends automated email reports, logs application activity, implements retry mechanisms, and supports scheduled execution using Windows Task Scheduler.
+A production-style Python backend automation project that fetches real-time cryptocurrency prices from the CoinGecko API, stores them in a PostgreSQL database running inside Docker, generates formatted reports, sends automated email reports, logs application activity, implements retry mechanisms with exponential backoff, supports scheduled execution, and includes unit tests for core modules.
 
 ---
 
@@ -18,6 +18,7 @@ This project demonstrates how to:
 * Manage configuration using environment variables.
 * Run PostgreSQL inside Docker.
 * Automate execution using Windows Task Scheduler.
+* Write unit tests using pytest and unittest.mock.
 * Organize Python code into reusable modules.
 * Handle database transactions safely.
 * Build a production-style backend application.
@@ -54,8 +55,9 @@ This project demonstrates how to:
 * Automatic table creation.
 * Historical cryptocurrency price storage.
 * Timestamped records.
-* Database transaction management using commit and rollback.
+* Database transaction management.
 * Automatic cleanup of database resources.
+* Context manager support for database connections.
 
 ---
 
@@ -84,20 +86,19 @@ This project demonstrates how to:
 
 * Automated execution using Windows Task Scheduler.
 * Daily or custom schedules.
-* No manual intervention required.
 * Automatically:
 
-  * Fetches cryptocurrency prices
-  * Updates PostgreSQL
-  * Generates reports
-  * Sends email reports
-  * Logs execution
+  * Fetches cryptocurrency prices.
+  * Updates PostgreSQL.
+  * Generates reports.
+  * Sends email reports.
+  * Logs execution.
 
 ---
 
 ## Logging
 
-* Centralized logging configuration.
+* Centralized logger configuration.
 * File logging.
 * Console logging.
 * INFO, WARNING and ERROR log levels.
@@ -112,7 +113,7 @@ This project demonstrates how to:
 ## Configuration
 
 * Environment variables managed using `.env`.
-* Example configuration via `.env.example`.
+* Example configuration using `.env.example`.
 * Centralized configuration using `config.py`.
 * Configurable:
 
@@ -120,7 +121,30 @@ This project demonstrates how to:
   * Email settings
   * API timeout
   * Retry attempts
-  * Report paths
+  * Report path
+
+---
+
+## Testing
+
+The project includes automated unit tests using **pytest** and **unittest.mock**.
+
+Current test coverage includes:
+
+* Report generation
+* CoinGecko API integration
+* Database connection
+* Database insert operations
+* Database retrieval
+* API success and failure scenarios
+* Email sending
+* Database connection failures
+
+Run all tests:
+
+```bash
+pytest
+```
 
 ---
 
@@ -137,12 +161,19 @@ multi-crypto-price-tracker/
 ├── config.py
 ├── main.py
 │
+├── tests/
+│   ├── test_db.py
+│   ├── test_fetch_crypto.py
+│   ├── test_report.py
+│   └── test_email_sender.py
+│
 ├── reports/
 ├── logs/
 ├── docs/
 │   └── windows_task_scheduler.md
 │
 ├── requirements.txt
+├── pytest.ini
 ├── docker-compose.yml
 ├── .env.example
 ├── .gitignore
@@ -163,6 +194,8 @@ multi-crypto-price-tracker/
 * smtplib
 * EmailMessage
 * Python Logging
+* pytest
+* unittest.mock
 * Windows Task Scheduler
 
 ---
@@ -208,19 +241,19 @@ EMAIL_RECEIVER=receiver@gmail.com
 
 # Docker Setup
 
-## Start PostgreSQL
+Start PostgreSQL:
 
 ```bash
 docker compose up -d
 ```
 
-## Verify Container
+Verify container:
 
 ```bash
 docker ps
 ```
 
-## Stop PostgreSQL
+Stop PostgreSQL:
 
 ```bash
 docker compose down
@@ -230,51 +263,57 @@ docker compose down
 
 # Installation
 
-## Clone the Repository
+Clone the repository:
 
 ```bash
 git clone <repository-url>
 cd multi-crypto-price-tracker
 ```
 
-## Create Virtual Environment
+Create a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-### Windows
+Activate it:
+
+Windows
 
 ```bash
 .venv\Scripts\activate
 ```
 
-### Linux / macOS
+Linux/macOS
 
 ```bash
 source .venv/bin/activate
 ```
 
-## Install Dependencies
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Configure Environment Variables
+Create a `.env` file from `.env.example`.
 
-Create a `.env` file using `.env.example`.
-
-## Start PostgreSQL
+Start PostgreSQL:
 
 ```bash
 docker compose up -d
 ```
 
-## Run the Application
+Run the application:
 
 ```bash
 python main.py
+```
+
+Run tests:
+
+```bash
+pytest
 ```
 
 ---
@@ -283,16 +322,16 @@ python main.py
 
 The project supports automated execution using **Windows Task Scheduler**.
 
-Each scheduled execution will:
+Each scheduled execution:
 
-1. Fetch cryptocurrency prices.
-2. Store prices in PostgreSQL.
-3. Generate a report.
-4. Save the report to the `reports` directory.
-5. Email the report.
-6. Log the complete execution.
+1. Fetches cryptocurrency prices.
+2. Stores prices in PostgreSQL.
+3. Generates a report.
+4. Saves the report.
+5. Sends the report by email.
+6. Logs the entire execution.
 
-See:
+Documentation:
 
 ```text
 docs/windows_task_scheduler.md
@@ -317,13 +356,13 @@ Binancecoin  $564.38
 
 # Generated Files
 
-## Report
+Report:
 
 ```text
 reports/crypto_report.txt
 ```
 
-## Logs
+Logs:
 
 ```text
 logs/app.log
@@ -333,7 +372,7 @@ logs/app.log
 
 # Error Handling
 
-### API
+## API
 
 * Timeout handling
 * Connection failures
@@ -343,47 +382,49 @@ logs/app.log
 * Exponential backoff
 * Missing data validation
 
-### Database
+## Database
 
 * Connection failures
 * SQL execution errors
-* Rollback support
+* Transaction management
 * Automatic resource cleanup
 
-### Email
+## Email
 
 * SMTP connection failures
 * Authentication failures
 * Attachment handling
 * Email sending failures
 
-### Logging
+## Logging
 
 * File logging
 * Console logging
-* Error tracking
 * Warning tracking
+* Error tracking
 * Application lifecycle monitoring
 
 ---
 
 # Production Improvements
 
-This project includes several production-style practices:
+This project follows several production-style backend practices:
 
 * Modular project architecture
 * Environment-based configuration
-* Config validation
+* Configuration validation
 * Configurable retry settings
 * Configurable request timeout
 * Context managers
 * Centralized logging
-* Dual log handlers (file + console)
+* Dual log handlers (console + file)
 * Type hints
 * Reusable helper functions
 * Centralized report path configuration
 * Database transaction safety
 * Automatic resource cleanup
+* Unit testing using pytest
+* Mocking external services with unittest.mock
 
 ---
 
@@ -401,8 +442,10 @@ This project was built to practice:
 * Environment variable management
 * Context managers
 * Type hints
-* Production-ready project structure
+* pytest
+* Mocking external dependencies
 * Backend application architecture
+* Production-ready Python development
 
 ---
 
@@ -413,8 +456,8 @@ This project was built to practice:
 * HTML email reports
 * Summary statistics
 * Streamlit dashboard
-* Dockerized application deployment
-* Unit tests
-* Integration tests
-* GitHub Actions CI/CD
+* Dockerize the Python application
+* GitHub Actions CI/CD pipeline
 * Linux cron scheduling
+* Integration tests
+* Test coverage reporting
