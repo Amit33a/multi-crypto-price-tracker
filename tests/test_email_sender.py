@@ -10,10 +10,7 @@ def test_send_email_success(mock_connect):
     mock_server = mock_connect.return_value
 
     # Call the function
-    result = send_email(
-        subject="Test Subject",
-        body="Test Body"
-    )
+    result = send_email(subject="Test Subject", body="Test Body")
 
     # Verify email was sent
     mock_server.send_message.assert_called_once()

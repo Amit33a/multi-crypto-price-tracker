@@ -14,15 +14,10 @@ def test_get_connection(mock_connect):
     connection = get_connection()
 
     mock_connect.assert_called_once_with(
-        host=DB_HOST,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        port=DB_PORT
+        host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD, port=DB_PORT
     )
 
     assert connection == mock_connect.return_value
-
 
 
 @patch("db.psycopg2.connect")
@@ -48,7 +43,6 @@ def test_insert_price(mock_connect):
 
     # Verify cursor cleanup
     mock_cursor.close.assert_called_once()
-
 
 
 @patch("db.psycopg2.connect")
@@ -91,9 +85,7 @@ def test_get_all_prices(mock_connect):
 def test_get_all_prices_connection_failure(mock_connect):
 
     # Simulate a database connection failure
-    mock_connect.side_effect = psycopg2.Error(
-        "Unable to connect to database"
-    )
+    mock_connect.side_effect = psycopg2.Error("Unable to connect to database")
 
     rows = get_all_prices()
 

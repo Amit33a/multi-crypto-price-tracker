@@ -12,11 +12,7 @@ from logger_config import logger
 def get_connection():
 
     return psycopg2.connect(
-        host=DB_HOST,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        port=DB_PORT
+        host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD, port=DB_PORT
     )
 
 
@@ -53,7 +49,6 @@ def create_table():
 
         if cur:
             cur.close()
-            
 
 
 # Insert a cryptocurrency price into the database
@@ -68,10 +63,13 @@ def insert_price(name: str, price: float) -> None:
 
             cur = conn.cursor()
 
-            cur.execute("""
+            cur.execute(
+                """
                 INSERT INTO multi_crypto_price (crypto_name, price_usd)
                 VALUES (%s, %s)
-            """, (name, price))
+            """,
+                (name, price),
+            )
 
             logger.info(f"Successfully inserted {name} price")
 
@@ -87,7 +85,6 @@ def insert_price(name: str, price: float) -> None:
             cur.close()
 
 
-
 # Retrieve all cryptocurrency prices from the database
 def get_all_prices():
 
@@ -100,9 +97,7 @@ def get_all_prices():
 
             cur = conn.cursor()
 
-            cur.execute(
-                "SELECT * FROM multi_crypto_price ORDER BY created_at DESC"
-            )
+            cur.execute("SELECT * FROM multi_crypto_price ORDER BY created_at DESC")
 
             rows = cur.fetchall()
 

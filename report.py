@@ -10,9 +10,7 @@ def build_report(rows: list) -> str:
         logger.warning("Report generation skipped: no data available")
         return "No data available."
 
-    logger.info(
-        f"Generating report with {len(rows)} database records"
-    )
+    logger.info(f"Generating report with {len(rows)} database records")
 
     report = []
 

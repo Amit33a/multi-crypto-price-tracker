@@ -4,7 +4,6 @@ import os
 # Import load_dotenv to read variables from the .env file
 from dotenv import load_dotenv
 
-
 # Load environment variables from the .env file
 load_dotenv()
 
@@ -21,9 +20,7 @@ def get_required_env(name):
     value = os.getenv(name)
 
     if not value:
-        raise RuntimeError(
-            f"Missing required environment variable: {name}"
-        )
+        raise RuntimeError(f"Missing required environment variable: {name}")
 
     return value
 
@@ -60,7 +57,6 @@ DB_PASSWORD = get_required_env("DB_PASSWORD")
 # API Configuration
 REQUEST_TIMEOUT = get_required_int("REQUEST_TIMEOUT")
 MAX_RETRIES = get_required_int("MAX_RETRIES")
-
 
 
 # Email Configuration

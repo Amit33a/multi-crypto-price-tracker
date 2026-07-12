@@ -39,17 +39,20 @@ def main():
 
             # Step 7: Save report to file
             with open(REPORT_PATH, "w") as file:
-               file.write(report)
+                file.write(report)
 
             logger.info("Report saved successfully")
 
             # Step 8: Send report by email
-            if send_email(subject="Daily Crypto Price Report", body="Please find today's cryptocurrency report attached.",
-                            attachment_path=REPORT_PATH):
-               logger.info("Report email sent successfully")
+            if send_email(
+                subject="Daily Crypto Price Report",
+                body="Please find today's cryptocurrency report attached.",
+                attachment_path=REPORT_PATH,
+            ):
+                logger.info("Report email sent successfully")
             else:
                 logger.warning("Report email could not be sent")
-                
+
         else:
             logger.warning("Failed to fetch crypto prices")
 

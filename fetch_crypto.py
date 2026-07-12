@@ -13,10 +13,9 @@ from config import REQUEST_TIMEOUT, MAX_RETRIES
 
 # Fetch cryptocurrency prices from CoinGecko
 def fetch_crypto_price() -> dict[str, float] | None:
-    
+
     # CoinGecko API endpoint
     url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd"
-    
 
     # Attempt the request multiple times
     for attempt in range(1, MAX_RETRIES + 1):
@@ -50,20 +49,22 @@ def fetch_crypto_price() -> dict[str, float] | None:
             # Validate API response
             if missing_prices:
 
-                logger.error(f"Incomplete API response. Missing prices: {', '.join(missing_prices)}")
+                logger.error(
+                    f"Incomplete API response. Missing prices: {', '.join(missing_prices)}"
+                )
 
                 return None
 
             logger.info("Successfully fetched cryptocurrency prices")
 
-            return prices 
-        
+            return prices
+
         # Handle invalid JSON responses
         except ValueError as error:
 
             logger.error(f"Invalid JSON response received: {error}")
 
-            return None        
+            return None
 
         # Handle network-related errors
         except requests.exceptions.RequestException as error:
@@ -75,7 +76,9 @@ def fetch_crypto_price() -> dict[str, float] | None:
             # Stop retrying after the final attempt
             if attempt == MAX_RETRIES:
 
-                logger.error("Maximum retry attempts reached. Unable to fetch cryptocurrency prices.")
+                logger.error(
+                    "Maximum retry attempts reached. Unable to fetch cryptocurrency prices."
+                )
 
                 return None
 

@@ -85,8 +85,11 @@ def send_email(subject, body, attachment_path=None) -> bool:
 
             with open(attachment_path, "rb") as file:
 
-                message.add_attachment(file.read(), maintype="text", subtype="plain",
-                    filename=os.path.basename(attachment_path)
+                message.add_attachment(
+                    file.read(),
+                    maintype="text",
+                    subtype="plain",
+                    filename=os.path.basename(attachment_path),
                 )
 
         logger.info("Sending email")
@@ -100,9 +103,7 @@ def send_email(subject, body, attachment_path=None) -> bool:
 
     except Exception as error:
 
-        logger.error(
-            f"Failed to send email: {error}"
-        )
+        logger.error(f"Failed to send email: {error}")
 
         print(f"Email error: {error}")
 
@@ -114,4 +115,3 @@ def send_email(subject, body, attachment_path=None) -> bool:
         server.quit()
 
         logger.info("Disconnected from email server")
-    

@@ -31,9 +31,7 @@ def test_fetch_crypto_price_success(mock_get):
 @patch("fetch_crypto.requests.get")
 def test_fetch_crypto_price_request_failure(mock_get):
 
-    mock_get.side_effect = requests.exceptions.ConnectionError(
-        "Unable to connect"
-    )
+    mock_get.side_effect = requests.exceptions.ConnectionError("Unable to connect")
 
     result = fetch_crypto_price()
 
@@ -66,9 +64,7 @@ def test_fetch_crypto_price_invalid_json(mock_get):
 
     mock_response.raise_for_status.return_value = None
 
-    mock_response.json.side_effect = ValueError(
-        "Invalid JSON"
-    )
+    mock_response.json.side_effect = ValueError("Invalid JSON")
 
     result = fetch_crypto_price()
 
