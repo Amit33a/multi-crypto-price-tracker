@@ -1,10 +1,9 @@
-from report import build_report
-from fetch_crypto import fetch_crypto_price
-from db import create_table, insert_price, get_all_prices
-
-from logger_config import logger
-from email_sender import send_email
 from config import REPORT_PATH
+from db import create_table, get_all_prices, insert_price
+from email_sender import send_email
+from fetch_crypto import fetch_crypto_price
+from logger_config import logger
+from report import build_report
 
 
 def main():

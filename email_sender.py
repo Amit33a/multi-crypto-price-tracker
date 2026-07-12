@@ -1,17 +1,17 @@
-# Import SMTP library
-import smtplib
-
 # Import operating system utilities
 import os
 
-# Import email configuration
-from config import EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASSWORD, EMAIL_RECEIVER
-
-# Import application logger
-from logger_config import logger
+# Import SMTP library
+import smtplib
 
 # Import EmailMessage to create and format email messages
 from email.message import EmailMessage
+
+# Import email configuration
+from config import EMAIL_HOST, EMAIL_PASSWORD, EMAIL_PORT, EMAIL_RECEIVER, EMAIL_USER
+
+# Import application logger
+from logger_config import logger
 
 
 def connect_email_server():

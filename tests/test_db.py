@@ -1,11 +1,9 @@
 from unittest.mock import patch
 
-from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
-
-from db import get_connection
-from db import insert_price
-from db import get_all_prices
 import psycopg2
+
+from config import DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER
+from db import get_all_prices, get_connection, insert_price
 
 
 @patch("db.psycopg2.connect")

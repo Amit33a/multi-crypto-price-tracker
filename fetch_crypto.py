@@ -1,14 +1,14 @@
-# Requests library sends HTTP requests
-import requests
-
 # Time module pauses execution between retries
 import time
 
-# Import application logger
-from logger_config import logger
+# Requests library sends HTTP requests
+import requests
 
 # Import timeout and retry
-from config import REQUEST_TIMEOUT, MAX_RETRIES
+from config import MAX_RETRIES, REQUEST_TIMEOUT
+
+# Import application logger
+from logger_config import logger
 
 
 # Fetch cryptocurrency prices from CoinGecko

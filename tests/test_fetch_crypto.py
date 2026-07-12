@@ -1,4 +1,5 @@
 from unittest.mock import patch
+
 import requests
 
 from fetch_crypto import fetch_crypto_price
