@@ -50,7 +50,8 @@ def fetch_crypto_price() -> dict[str, float] | None:
             if missing_prices:
 
                 logger.error(
-                    f"Incomplete API response. Missing prices: {', '.join(missing_prices)}"
+                    "Incomplete API response."
+                    f"Missing prices: {', '.join(missing_prices)}"
                 )
 
                 return None
@@ -77,7 +78,8 @@ def fetch_crypto_price() -> dict[str, float] | None:
             if attempt == MAX_RETRIES:
 
                 logger.error(
-                    "Maximum retry attempts reached. Unable to fetch cryptocurrency prices."
+                    "Maximum retry attempts reached."
+                    "Unable to fetch cryptocurrency prices."
                 )
 
                 return None
