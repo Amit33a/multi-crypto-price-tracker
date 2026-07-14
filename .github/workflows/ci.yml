@@ -38,5 +38,8 @@ jobs:
       - name: Run Ruff
         run: ruff check .
 
+      - name: Create test environment
+        run: cp .env.test .env
+      
       - name: Run tests
         run: pytest
