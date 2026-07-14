@@ -13,15 +13,15 @@ from logger_config import logger
 
 # Fetch cryptocurrency prices from CoinGecko
 def fetch_crypto_price() -> dict[str, float] | None:
-
     # CoinGecko API endpoint
-    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd"
+    url = (
+        "https://api.coingecko.com/api/v3/simple/price?"
+        "ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd"
+    )
 
     # Attempt the request multiple times
     for attempt in range(1, MAX_RETRIES + 1):
-
         try:
-
             logger.info(f"API request to CoinGecko (Attempt {attempt}/{MAX_RETRIES})")
 
             # Send HTTP request
@@ -48,7 +48,6 @@ def fetch_crypto_price() -> dict[str, float] | None:
 
             # Validate API response
             if missing_prices:
-
                 logger.error(
                     "Incomplete API response."
                     f"Missing prices: {', '.join(missing_prices)}"
@@ -62,21 +61,18 @@ def fetch_crypto_price() -> dict[str, float] | None:
 
         # Handle invalid JSON responses
         except ValueError as error:
-
             logger.error(f"Invalid JSON response received: {error}")
 
             return None
 
         # Handle network-related errors
         except requests.exceptions.RequestException as error:
-
             logger.warning(f"Attempt {attempt} failed: {error}")
 
             print(f"Attempt {attempt} failed: {error}")
 
             # Stop retrying after the final attempt
             if attempt == MAX_RETRIES:
-
                 logger.error(
                     "Maximum retry attempts reached."
                     "Unable to fetch cryptocurrency prices."
