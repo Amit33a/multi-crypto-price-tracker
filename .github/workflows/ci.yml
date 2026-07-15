@@ -41,5 +41,5 @@ jobs:
       - name: Create test environment
         run: cp .env.test .env
       
-      - name: Run tests
-        run: pytest
+      - name: Run tests with coverage
+        run: pytest --cov=. --cov-report=term-missing
