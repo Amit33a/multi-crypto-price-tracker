@@ -5,3 +5,6 @@ reports/
 logs/
 .coverage
 htmlcov/
+.pytest_cache/
+*.log
+.vscode/
