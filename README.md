@@ -1,6 +1,6 @@
 # Multi Crypto Price Tracker
 
-A production-style Python backend automation project that fetches real-time cryptocurrency prices from the CoinGecko API, stores them in a PostgreSQL database running inside Docker, generates formatted reports, sends automated email reports, logs application activity, implements retry mechanisms with exponential backoff, supports scheduled execution, and includes unit tests for core modules.
+A modern Python backend automation project that fetches real-time cryptocurrency prices from the CoinGecko API, stores them in a PostgreSQL database running inside Docker, generates formatted reports, sends automated email reports, logs application activity, implements retry mechanisms with exponential backoff, supports scheduled execution, and follows professional Python development practices including automated testing, code formatting, linting, pre-commit hooks, code coverage, and GitHub Actions Continuous Integration.
 
 ---
 
@@ -8,20 +8,59 @@ A production-style Python backend automation project that fetches real-time cryp
 
 This project demonstrates how to:
 
-* Consume data from a public REST API.
-* Handle temporary API failures using retry logic and exponential backoff.
-* Validate API responses before processing data.
-* Store cryptocurrency prices in PostgreSQL.
-* Generate formatted text reports.
-* Send automated email reports with attachments.
-* Log application events to both the console and log files.
-* Manage configuration using environment variables.
-* Run PostgreSQL inside Docker.
-* Automate execution using Windows Task Scheduler.
-* Write unit tests using pytest and unittest.mock.
-* Organize Python code into reusable modules.
-* Handle database transactions safely.
-* Build a production-style backend application.
+- Consume data from a public REST API.
+- Handle temporary API failures using retry logic and exponential backoff.
+- Validate API responses before processing data.
+- Store cryptocurrency prices in PostgreSQL.
+- Generate formatted reports.
+- Send automated email reports with attachments.
+- Log application events to both the console and log files.
+- Manage configuration using environment variables.
+- Run PostgreSQL inside Docker.
+- Automate execution using Windows Task Scheduler.
+- Write automated unit tests using pytest and unittest.mock.
+- Organise Python code into reusable modules.
+- Handle database transactions safely.
+- Build a maintainable backend application.
+- Perform automated code quality checks.
+- Generate code coverage reports.
+- Run Continuous Integration using GitHub Actions.
+
+---
+
+# Project Architecture
+
+```
+                    CoinGecko API
+                          │
+                          ▼
+                 fetch_crypto.py
+                          │
+                          ▼
+                   Validate Response
+                          │
+                          ▼
+                       PostgreSQL
+                   (Docker Container)
+                          │
+                          ▼
+                      report.py
+                          │
+                          ▼
+                  crypto_report.txt
+                          │
+                          ▼
+                  email_sender.py
+                          │
+                          ▼
+                      SMTP Server
+                          │
+                          ▼
+                    Email Receiver
+
+```
+
+Windows Task Scheduler can automatically execute the application on a schedule.
 
 ---
 
@@ -29,99 +68,122 @@ This project demonstrates how to:
 
 ## API Integration
 
-* Fetch real-time cryptocurrency prices from the CoinGecko API.
-* Track multiple cryptocurrencies:
-
-  * Bitcoin (BTC)
-  * Ethereum (ETH)
-  * Solana (SOL)
-  * Binance Coin (BNB)
-* HTTP request handling using Requests.
-* Configurable request timeout.
-* HTTP status validation.
-* Safe JSON extraction.
-* Automatic retry mechanism.
-* Exponential backoff between retries.
-* Configurable retry attempts.
-* API response validation.
-* Detection of missing cryptocurrency data.
+- Fetch real-time cryptocurrency prices from the CoinGecko API.
+- Track multiple cryptocurrencies:
+  - Bitcoin (BTC)
+  - Ethereum (ETH)
+  - Solana (SOL)
+  - Binance Coin (BNB)
+- HTTP request handling using Requests.
+- Configurable request timeout.
+- HTTP status validation.
+- Safe JSON extraction.
+- Automatic retry mechanism.
+- Exponential backoff between retries.
+- Configurable retry attempts.
+- API response validation.
+- Detection of missing cryptocurrency data.
 
 ---
 
 ## Database Integration
 
-* PostgreSQL integration using psycopg2.
-* Dockerized PostgreSQL using Docker Compose.
-* Automatic table creation.
-* Historical cryptocurrency price storage.
-* Timestamped records.
-* Database transaction management.
-* Automatic cleanup of database resources.
-* Context manager support for database connections.
+- PostgreSQL integration using psycopg2.
+- Dockerised PostgreSQL using Docker Compose.
+- Automatic table creation.
+- Historical cryptocurrency price storage.
+- Timestamped records.
+- Database transaction management.
+- Automatic cleanup of database resources.
+- Context manager support for database connections.
 
 ---
 
 ## Report Generation
 
-* Generate formatted cryptocurrency reports.
-* Display reports in the terminal.
-* Save reports as text files.
-* Timestamp every generated report.
-* Centralized report file configuration.
+- Generate formatted cryptocurrency reports.
+- Display reports in the terminal.
+- Save reports as text files.
+- Timestamp every generated report.
+- Centralised report file configuration.
 
 ---
 
 ## Email Automation
 
-* SMTP email integration.
-* Secure TLS connection.
-* Plain text email support.
-* Automatic report delivery.
-* Report attachment support.
-* Configurable sender and receiver.
+- SMTP email integration.
+- Secure TLS connection.
+- Plain text email support.
+- Automatic report delivery.
+- Report attachment support.
+- Configurable sender and receiver.
 
 ---
 
 ## Scheduling
 
-* Automated execution using Windows Task Scheduler.
-* Daily or custom schedules.
-* Automatically:
-
-  * Fetches cryptocurrency prices.
-  * Updates PostgreSQL.
-  * Generates reports.
-  * Sends email reports.
-  * Logs execution.
+- Automated execution using Windows Task Scheduler.
+- Daily or custom schedules.
+- Automatically:
+  - Fetches cryptocurrency prices.
+  - Updates PostgreSQL.
+  - Generates reports.
+  - Sends email reports.
+  - Logs execution.
 
 ---
 
 ## Logging
 
-* Centralized logger configuration.
-* File logging.
-* Console logging.
-* INFO, WARNING and ERROR log levels.
-* API logging.
-* Database logging.
-* Email logging.
-* Report generation logging.
-* Application lifecycle logging.
+- Centralised logger configuration.
+- File logging.
+- Console logging.
+- INFO, WARNING and ERROR log levels.
+- API logging.
+- Database logging.
+- Email logging.
+- Report generation logging.
+- Application lifecycle logging.
 
 ---
 
 ## Configuration
 
-* Environment variables managed using `.env`.
-* Example configuration using `.env.example`.
-* Centralized configuration using `config.py`.
-* Configurable:
+Environment variables are managed using `.env`.
 
-  * Database settings
-  * Email settings
-  * API timeout
-  * Retry attempts
-  * Report path
+Configuration includes:
+
+- Database settings
+- Email settings
+- API timeout
+- Retry attempts
+- Report path
+
+---
+
+## Code Quality
+
+The project uses:
+
+- Ruff
+- Black
+- isort
+- pre-commit
+- Consistent Python formatting
+- Automatic formatting before every commit
+
+---
+
+## Continuous Integration
+
+GitHub Actions automatically performs:
+
+- Ruff linting
+- Black formatting verification
+- isort import verification
+- Unit testing
+- Code coverage reporting
+- Minimum coverage enforcement
 
 ---
 
@@ -131,20 +193,40 @@ The project includes automated unit tests using **pytest** and **unittest.mock**
 
 Current test coverage includes:
 
-* Report generation
-* CoinGecko API integration
-* Database connection
-* Database insert operations
-* Database retrieval
-* API success and failure scenarios
-* Email sending
-* Database connection failures
+- Report generation
+- CoinGecko API integration
+- Database connection
+- Database insert operations
+- Database retrieval
+- API success and failure scenarios
+- Email sending
+- Database connection failures
 
 Run all tests:
 
 ```bash
 pytest
 ```
+
+Generate terminal coverage:
+
+```bash
+pytest --cov --cov-report=term-missing
+```
+
+Generate HTML coverage:
+
+```bash
+pytest --cov --cov-report=html
+```
+
+Open:
+
+```
+htmlcov/index.html
+```
+
+to inspect detailed line-by-line coverage.
 
 ---
 
@@ -161,21 +243,30 @@ multi-crypto-price-tracker/
 ├── config.py
 ├── main.py
 │
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
 ├── tests/
 │   ├── test_db.py
 │   ├── test_fetch_crypto.py
 │   ├── test_report.py
 │   └── test_email_sender.py
 │
-├── reports/
-├── logs/
 ├── docs/
 │   └── windows_task_scheduler.md
 │
-├── requirements.txt
+├── reports/
+├── logs/
+│
+├── .coveragerc
+├── .env.example
+├── .env.test
+├── .pre-commit-config.yaml
+├── pyproject.toml
 ├── pytest.ini
 ├── docker-compose.yml
-├── .env.example
+├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
@@ -184,19 +275,47 @@ multi-crypto-price-tracker/
 
 # Technologies Used
 
-* Python 3
-* Requests
-* PostgreSQL
-* psycopg2
-* Docker
-* Docker Compose
-* python-dotenv
-* smtplib
-* EmailMessage
-* Python Logging
-* pytest
-* unittest.mock
-* Windows Task Scheduler
+## Backend
+
+- Python 3.14
+- Requests
+
+### Database
+
+- PostgreSQL
+- psycopg2
+
+### Containerisation
+
+- Docker
+- Docker Compose
+
+### Email
+
+- smtplib
+- EmailMessage
+
+### Testing
+
+- pytest
+- unittest.mock
+- pytest-cov
+
+### Code Quality
+
+- Ruff
+- Black
+- isort
+- pre-commit
+
+### DevOps
+
+- GitHub Actions
+- Windows Task Scheduler
+
+### Configuration
+
+- python-dotenv
 
 ---
 
@@ -218,18 +337,18 @@ CREATE TABLE IF NOT EXISTS multi_crypto_price (
 Create a `.env` file in the project root.
 
 ```env
-# Database Configuration
+# Database
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=your_database_user
 DB_PASSWORD=your_database_password
 DB_NAME=crypto_tracker
 
-# API Configuration
+# API
 REQUEST_TIMEOUT=10
 MAX_RETRIES=3
 
-# Email Configuration
+# Email
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL_USER=your_email@gmail.com
@@ -239,44 +358,22 @@ EMAIL_RECEIVER=receiver@gmail.com
 
 ---
 
-# Docker Setup
-
-Start PostgreSQL:
-
-```bash
-docker compose up -d
-```
-
-Verify container:
-
-```bash
-docker ps
-```
-
-Stop PostgreSQL:
-
-```bash
-docker compose down
-```
-
----
-
 # Installation
 
-Clone the repository:
+## 1. Clone the repository
 
 ```bash
 git clone <repository-url>
 cd multi-crypto-price-tracker
 ```
 
-Create a virtual environment:
+## 2. Create a virtual environment
 
 ```bash
 python -m venv .venv
 ```
 
-Activate it:
+## 3. Activate the environment
 
 Windows
 
@@ -290,13 +387,43 @@ Linux/macOS
 source .venv/bin/activate
 ```
 
-Install dependencies:
+## 4. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Create a `.env` file from `.env.example`.
+## 5. Configure environment variables
+
+Copy:
+
+```
+.env.example
+```
+
+to
+
+```
+.env
+```
+
+and update the values.
+
+## 6. Start PostgreSQL
+
+```bash
+docker compose up -d
+```
+
+## 7. Run the application
+
+```bash
+python main.py
+```
+
+---
+
+# Docker Setup
 
 Start PostgreSQL:
 
@@ -304,16 +431,16 @@ Start PostgreSQL:
 docker compose up -d
 ```
 
-Run the application:
+Verify the container is running:
 
 ```bash
-python main.py
+docker ps
 ```
 
-Run tests:
+Stop PostgreSQL:
 
 ```bash
-pytest
+docker compose down
 ```
 
 ---
@@ -322,20 +449,22 @@ pytest
 
 The project supports automated execution using **Windows Task Scheduler**.
 
-Each scheduled execution:
+Each scheduled execution automatically:
 
-1. Fetches cryptocurrency prices.
+1. Fetches cryptocurrency prices from CoinGecko.
 2. Stores prices in PostgreSQL.
-3. Generates a report.
-4. Saves the report.
+3. Generates a formatted report.
+4. Saves the report to disk.
 5. Sends the report by email.
-6. Logs the entire execution.
+6. Records execution details in the application log.
 
-Documentation:
+See:
 
 ```text
 docs/windows_task_scheduler.md
 ```
+
+for the complete scheduling guide.
 
 ---
 
@@ -356,108 +485,240 @@ Binancecoin  $564.38
 
 # Generated Files
 
-Report:
+Generated report:
 
 ```text
 reports/crypto_report.txt
 ```
 
-Logs:
+Application log:
 
 ```text
 logs/app.log
+```
+
+HTML coverage report:
+
+```text
+htmlcov/index.html
 ```
 
 ---
 
 # Error Handling
 
+The project implements robust error handling across multiple components.
+
 ## API
 
-* Timeout handling
-* Connection failures
-* HTTP status validation
-* JSON validation
-* Retry mechanism
-* Exponential backoff
-* Missing data validation
+- Connection failures
+- Request timeout handling
+- HTTP status validation
+- Invalid JSON responses
+- Missing cryptocurrency validation
+- Retry mechanism
+- Exponential backoff
 
 ## Database
 
-* Connection failures
-* SQL execution errors
-* Transaction management
-* Automatic resource cleanup
+- Database connection failures
+- SQL execution errors
+- Transaction rollback
+- Automatic resource cleanup
+- Safe connection management using context managers
 
 ## Email
 
-* SMTP connection failures
-* Authentication failures
-* Attachment handling
-* Email sending failures
+- SMTP connection failures
+- Authentication failures
+- Email sending failures
+- Attachment handling failures
 
-## Logging
+## Application
 
-* File logging
-* Console logging
-* Warning tracking
-* Error tracking
-* Application lifecycle monitoring
+- Centralized exception logging
+- Graceful error reporting
+- Application lifecycle logging
 
 ---
 
-# Production Improvements
+# Code Quality
 
-This project follows several production-style backend practices:
+The project follows modern Python development practices.
 
-* Modular project architecture
-* Environment-based configuration
-* Configuration validation
-* Configurable retry settings
-* Configurable request timeout
-* Context managers
-* Centralized logging
-* Dual log handlers (console + file)
-* Type hints
-* Reusable helper functions
-* Centralized report path configuration
-* Database transaction safety
-* Automatic resource cleanup
-* Unit testing using pytest
-* Mocking external services with unittest.mock
+## Formatting
+
+- Black
+- Ruff Formatter
+
+## Linting
+
+- Ruff
+
+## Import Management
+
+- isort
+
+## Pre-commit Hooks
+
+Before every commit, the project automatically:
+
+- Checks import order
+- Checks formatting
+- Formats code automatically when possible
+- Runs static analysis
+
+This helps maintain a clean and consistent codebase.
+
+---
+
+# Testing
+
+The project includes automated unit tests using:
+
+- pytest
+- unittest.mock
+- pytest-cov
+
+Current test coverage includes:
+
+- Report generation
+- API success scenarios
+- API failure scenarios
+- Invalid JSON responses
+- Missing API data
+- Database connection
+- Database insert operations
+- Database retrieval
+- Database connection failures
+- Email sending
+
+Generate a terminal coverage report:
+
+```bash
+pytest --cov --cov-report=term-missing
+```
+
+Generate an HTML coverage report:
+
+```bash
+pytest --cov --cov-report=html
+```
+
+The CI pipeline also enforces a minimum code coverage threshold to help maintain code quality over time.
+
+---
+
+# Continuous Integration
+
+The project uses **GitHub Actions** to automatically validate every push and pull request.
+
+The workflow performs:
+
+- Dependency installation
+- Import sorting verification
+- Code formatting verification
+- Ruff linting
+- Unit testing
+- Code coverage verification
+
+This ensures that only code meeting the project's quality standards passes the CI pipeline.
+
+---
+
+# Production Practices
+
+This project incorporates several practices commonly used in professional Python backend development.
+
+- Modular project architecture
+- Environment-based configuration
+- Configuration validation
+- Reusable helper functions
+- Centralized configuration management
+- Type hints
+- Context managers
+- Automatic resource cleanup
+- Retry mechanism with exponential backoff
+- Database transaction safety
+- Structured logging
+- Dual logging handlers (file and console)
+- Automated testing
+- Mocking external services
+- Code coverage reporting
+- Coverage quality gates
+- Automated formatting
+- Automated linting
+- Continuous Integration
+- Dockerized database
 
 ---
 
 # Learning Outcomes
 
-This project was built to practice:
+This project was built to strengthen practical backend development skills, including:
 
-* REST API integration
-* PostgreSQL
-* Docker
-* Retry and resilience patterns
-* SMTP email automation
-* Windows Task Scheduler
-* Logging
-* Environment variable management
-* Context managers
-* Type hints
-* pytest
-* Mocking external dependencies
-* Backend application architecture
-* Production-ready Python development
+- REST API integration
+- PostgreSQL
+- Docker
+- Database transactions
+- SMTP email automation
+- Logging
+- Environment variable management
+- Error handling
+- Retry and resilience patterns
+- Context managers
+- Type hints
+- Automated testing
+- Mocking external dependencies
+- Code coverage
+- Continuous Integration
+- Professional Git workflow
+- Production-oriented Python development
 
 ---
 
 # Future Improvements
 
-* CSV export
-* Excel export
-* HTML email reports
-* Summary statistics
-* Streamlit dashboard
-* Dockerize the Python application
-* GitHub Actions CI/CD pipeline
-* Linux cron scheduling
-* Integration tests
-* Test coverage reporting
+Possible future enhancements include:
+
+- CSV report export
+- Excel report export
+- HTML email reports
+- Summary statistics
+- Interactive dashboard using Streamlit
+- Dockerize the Python application
+- Multi-stage Docker build
+- Deploy to a cloud platform (AWS, Azure, or Render)
+- Linux cron scheduling
+- Integration testing
+- REST API using FastAPI
+- Prometheus metrics
+- Grafana dashboards
+- Structured JSON logging
+- Database migrations using Alembic
+- Secrets management
+- Health check endpoint
+- Monitoring and alerting
+- CI/CD deployment pipeline
+
+---
+
+# Author
+
+**Amit Sharma**
+
+Aspiring Python Backend Developer
+
+GitHub:
+
+```text
+https://github.com/Amit33a
+```
+
+---
+
+# License
+
+This project is licensed under the MIT License.
+
+See the `LICENSE` file for details.
