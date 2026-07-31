@@ -8,7 +8,13 @@ import smtplib
 from email.message import EmailMessage
 
 # Import email configuration
-from config import EMAIL_HOST, EMAIL_PASSWORD, EMAIL_PORT, EMAIL_RECEIVER, EMAIL_USER
+from app.config.settings import (
+    EMAIL_HOST,
+    EMAIL_PASSWORD,
+    EMAIL_PORT,
+    EMAIL_RECEIVER,
+    EMAIL_USER,
+)
 
 # Import application logger
 from logger_config import logger
@@ -42,7 +48,6 @@ def connect_email_server():
         return server
 
     except Exception as error:
-
         logger.error(f"Failed to connect to email server: {error}")
 
         print(f"Email connection error: {error}")
@@ -64,7 +69,6 @@ def send_email(subject, body, attachment_path=None) -> bool:
         return False
 
     try:
-
         logger.info("Creating email message")
 
         # Create a new email message
@@ -80,11 +84,9 @@ def send_email(subject, body, attachment_path=None) -> bool:
 
         # Attach report file if provided
         if attachment_path:
-
             logger.info(f"Attaching file: {attachment_path}")
 
             with open(attachment_path, "rb") as file:
-
                 message.add_attachment(
                     file.read(),
                     maintype="text",
@@ -102,7 +104,6 @@ def send_email(subject, body, attachment_path=None) -> bool:
         return True
 
     except Exception as error:
-
         logger.error(f"Failed to send email: {error}")
 
         print(f"Email error: {error}")
@@ -110,7 +111,6 @@ def send_email(subject, body, attachment_path=None) -> bool:
         return False
 
     finally:
-
         # Close the connection to the email server
         server.quit()
 

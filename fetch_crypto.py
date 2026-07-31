@@ -5,7 +5,7 @@ import time
 import requests
 
 # Import timeout and retry
-from config import MAX_RETRIES, REQUEST_TIMEOUT
+from app.config.settings import MAX_RETRIES, REQUEST_TIMEOUT
 
 # Import application logger
 from logger_config import logger

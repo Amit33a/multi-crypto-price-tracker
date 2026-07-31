@@ -1,4 +1,4 @@
-from config import REPORT_PATH
+from app.config.settings import REPORT_PATH
 from db import create_table, get_all_prices, insert_price
 from email_sender import send_email
 from fetch_crypto import fetch_crypto_price
@@ -7,7 +7,6 @@ from report import build_report
 
 
 def main():
-
     logger.info("Application started")
 
     try:
@@ -18,7 +17,6 @@ def main():
         crypto_prices = fetch_crypto_price()
 
         if crypto_prices:
-
             logger.info("Saving crypto prices to database")
 
             # Step 3: Insert into DB
