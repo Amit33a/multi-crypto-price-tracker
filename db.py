@@ -25,16 +25,14 @@ def create_table():
         with get_connection() as conn:
             cur = conn.cursor()
 
-            cur.execute(
-                """
+            cur.execute("""
                 CREATE TABLE IF NOT EXISTS multi_crypto_price (
                     id SERIAL PRIMARY KEY,
                     crypto_name VARCHAR(50) NOT NULL,
                     price_usd NUMERIC(18,8) NOT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """
-            )
+            """)
 
             logger.info("Database table created successfully")
 

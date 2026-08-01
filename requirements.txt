@@ -1,9 +1,11 @@
 requests
 psycopg2
 python-dotenv
-pytest
-black
-isort
-ruff
-pre-commit
-pytest-cov
+
+pytest==9.1.1
+pytest-cov==7.1.0
+
+black==26.5.1
+isort==6.0.1
+ruff==0.12.2
+pre-commit==4.3.0

@@ -7,7 +7,6 @@ from fetch_crypto import fetch_crypto_price
 
 @patch("fetch_crypto.requests.get")
 def test_fetch_crypto_price_success(mock_get):
-
     mock_response = mock_get.return_value
 
     mock_response.raise_for_status.return_value = None
@@ -31,7 +30,6 @@ def test_fetch_crypto_price_success(mock_get):
 
 @patch("fetch_crypto.requests.get")
 def test_fetch_crypto_price_request_failure(mock_get):
-
     mock_get.side_effect = requests.exceptions.ConnectionError("Unable to connect")
 
     result = fetch_crypto_price()
@@ -41,7 +39,6 @@ def test_fetch_crypto_price_request_failure(mock_get):
 
 @patch("fetch_crypto.requests.get")
 def test_fetch_crypto_price_with_missing_data(mock_get):
-
     mock_response = mock_get.return_value
 
     mock_response.raise_for_status.return_value = None
@@ -60,7 +57,6 @@ def test_fetch_crypto_price_with_missing_data(mock_get):
 
 @patch("fetch_crypto.requests.get")
 def test_fetch_crypto_price_invalid_json(mock_get):
-
     mock_response = mock_get.return_value
 
     mock_response.raise_for_status.return_value = None

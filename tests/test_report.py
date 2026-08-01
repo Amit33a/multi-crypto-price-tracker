@@ -10,7 +10,6 @@ def test_build_report_with_no_data():
 
 
 def test_build_report_with_valid_data():
-
     rows = [(1, "bitcoin", 65000, datetime(2026, 7, 6, 10, 30, 0))]
 
     result = build_report(rows)
@@ -21,7 +20,6 @@ def test_build_report_with_valid_data():
 
 
 def test_build_report_with_multiple_cryptocurrencies():
-
     rows = [
         (1, "bitcoin", 65000, datetime(2026, 7, 6, 10, 30, 0)),
         (2, "ethereum", 3200, datetime(2026, 7, 6, 10, 30, 0)),
