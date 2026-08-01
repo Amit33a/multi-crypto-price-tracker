@@ -17,7 +17,7 @@ from app.config.settings import (
 )
 
 # Import application logger
-from logger_config import logger
+from app.utils.logger import logger
 
 
 def connect_email_server():

@@ -5,7 +5,7 @@ import psycopg2
 from app.config.settings import DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER
 
 # Import application logger
-from logger_config import logger
+from app.utils.logger import logger
 
 
 # Create and return a PostgreSQL database connection

@@ -8,7 +8,7 @@ import requests
 from app.config.settings import MAX_RETRIES, REQUEST_TIMEOUT
 
 # Import application logger
-from logger_config import logger
+from app.utils.logger import logger
 
 
 # Fetch cryptocurrency prices from CoinGecko

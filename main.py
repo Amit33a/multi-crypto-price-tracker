@@ -1,8 +1,8 @@
 from app.config.settings import REPORT_PATH
+from app.utils.logger import logger
 from db import create_table, get_all_prices, insert_price
 from email_sender import send_email
 from fetch_crypto import fetch_crypto_price
-from logger_config import logger
 from report import build_report
 
 

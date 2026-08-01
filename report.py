@@ -1,10 +1,9 @@
 from datetime import datetime
 
-from logger_config import logger
+from app.utils.logger import logger
 
 
 def build_report(rows: list) -> str:
-
     # Return message if no data exists
     if not rows:
         logger.warning("Report generation skipped: no data available")
