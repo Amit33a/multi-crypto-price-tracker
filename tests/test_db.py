@@ -3,10 +3,10 @@ from unittest.mock import patch
 import psycopg2
 
 from app.config.settings import DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER
-from db import get_all_prices, get_connection, insert_price
+from app.database.db import get_all_prices, get_connection, insert_price
 
 
-@patch("db.psycopg2.connect")
+@patch("app.database.db.psycopg2.connect")
 def test_get_connection(mock_connect):
     connection = get_connection()
 
@@ -17,7 +17,7 @@ def test_get_connection(mock_connect):
     assert connection == mock_connect.return_value
 
 
-@patch("db.psycopg2.connect")
+@patch("app.database.db.psycopg2.connect")
 def test_insert_price(mock_connect):
     # Connection object used inside the with block
     mock_connection = mock_connect.return_value.__enter__.return_value
@@ -41,7 +41,7 @@ def test_insert_price(mock_connect):
     mock_cursor.close.assert_called_once()
 
 
-@patch("db.psycopg2.connect")
+@patch("app.database.db.psycopg2.connect")
 def test_get_all_prices(mock_connect):
     # Connection used inside the with block
     mock_connection = mock_connect.return_value.__enter__.return_value
@@ -76,7 +76,7 @@ def test_get_all_prices(mock_connect):
     mock_cursor.close.assert_called_once()
 
 
-@patch("db.psycopg2.connect")
+@patch("app.database.db.psycopg2.connect")
 def test_get_all_prices_connection_failure(mock_connect):
     # Simulate a database connection failure
     mock_connect.side_effect = psycopg2.Error("Unable to connect to database")
