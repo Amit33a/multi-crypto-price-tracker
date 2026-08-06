@@ -1,9 +1,9 @@
 from unittest.mock import patch
 
-from email_sender import send_email
+from app.services.email_sender import send_email
 
 
-@patch("email_sender.connect_email_server")
+@patch("app.services.email_sender.connect_email_server")
 def test_send_email_success(mock_connect):
     # Fake SMTP server
     mock_server = mock_connect.return_value

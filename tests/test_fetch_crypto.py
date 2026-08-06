@@ -2,10 +2,10 @@ from unittest.mock import patch
 
 import requests
 
-from fetch_crypto import fetch_crypto_price
+from app.services.fetch_crypto import fetch_crypto_price
 
 
-@patch("fetch_crypto.requests.get")
+@patch("app.services.fetch_crypto.requests.get")
 def test_fetch_crypto_price_success(mock_get):
     mock_response = mock_get.return_value
 
@@ -28,7 +28,7 @@ def test_fetch_crypto_price_success(mock_get):
     }
 
 
-@patch("fetch_crypto.requests.get")
+@patch("app.services.fetch_crypto.requests.get")
 def test_fetch_crypto_price_request_failure(mock_get):
     mock_get.side_effect = requests.exceptions.ConnectionError("Unable to connect")
 
@@ -37,7 +37,7 @@ def test_fetch_crypto_price_request_failure(mock_get):
     assert result is None
 
 
-@patch("fetch_crypto.requests.get")
+@patch("app.services.fetch_crypto.requests.get")
 def test_fetch_crypto_price_with_missing_data(mock_get):
     mock_response = mock_get.return_value
 
@@ -55,7 +55,7 @@ def test_fetch_crypto_price_with_missing_data(mock_get):
     assert result is None
 
 
-@patch("fetch_crypto.requests.get")
+@patch("app.services.fetch_crypto.requests.get")
 def test_fetch_crypto_price_invalid_json(mock_get):
     mock_response = mock_get.return_value
 

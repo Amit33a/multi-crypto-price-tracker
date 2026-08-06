@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from report import build_report
+from app.services.report import build_report
 
 
 def test_build_report_with_no_data():

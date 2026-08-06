@@ -1,9 +1,9 @@
 from app.config.settings import REPORT_PATH
 from app.database.db import create_table, get_all_prices, insert_price
+from app.services.email_sender import send_email
+from app.services.fetch_crypto import fetch_crypto_price
+from app.services.report import build_report
 from app.utils.logger import logger
-from email_sender import send_email
-from fetch_crypto import fetch_crypto_price
-from report import build_report
 
 
 def main():
