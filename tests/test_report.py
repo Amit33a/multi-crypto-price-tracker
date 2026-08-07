@@ -1,10 +1,11 @@
 from datetime import datetime
 
 from app.services.report import build_report
+from app.utils.logger import logger
 
 
 def test_build_report_with_no_data():
-    result = build_report([])
+    result = build_report([], logger)
 
     assert result == "No data available."
 
@@ -12,7 +13,7 @@ def test_build_report_with_no_data():
 def test_build_report_with_valid_data():
     rows = [(1, "bitcoin", 65000, datetime(2026, 7, 6, 10, 30, 0))]
 
-    result = build_report(rows)
+    result = build_report(rows, logger)
 
     assert "Bitcoin" in result
     assert "$65000.00" in result
@@ -27,7 +28,7 @@ def test_build_report_with_multiple_cryptocurrencies():
         (4, "binancecoin", 720, datetime(2026, 7, 6, 10, 30, 0)),
     ]
 
-    report = build_report(rows)
+    report = build_report(rows, logger)
 
     assert "Bitcoin" in report
     assert "Ethereum" in report

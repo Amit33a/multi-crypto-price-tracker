@@ -29,7 +29,7 @@ def main():
             logger.info("Generating report")
 
             # Step 5: Generate report
-            report = build_report(rows)
+            report = build_report(rows, logger)
 
             # Step 6: Print report
             print(report)
