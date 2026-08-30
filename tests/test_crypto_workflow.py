@@ -38,7 +38,9 @@ def test_run_crypto_workflow_success():
         patch("builtins.open"),
         patch("builtins.print"),
     ):
-        run_crypto_workflow(logger)
+        result = run_crypto_workflow(logger)
+
+    assert result is True
 
 
 def test_run_crypto_workflow_when_no_prices():
@@ -51,6 +53,8 @@ def test_run_crypto_workflow_when_no_prices():
             return_value={},
         ),
     ):
-        run_crypto_workflow(logger)
+        result = run_crypto_workflow(logger)
+
+    assert result is False
 
     logger.warning.assert_called_once_with("Failed to fetch crypto prices")

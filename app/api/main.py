@@ -7,7 +7,12 @@ def create_application():
         logger.info("Application started")
 
         try:
-            run_crypto_workflow(logger)
+            success = run_crypto_workflow(logger)
+
+            if success:
+                logger.info("Crypto workflow completed successfully")
+            else:
+                logger.warning("Crypto workflow failed")
 
         except Exception as e:
             logger.error(f"Unexpected error in main application: {e}")

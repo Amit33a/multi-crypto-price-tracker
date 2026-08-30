@@ -14,7 +14,7 @@ def run_crypto_workflow(logger):
 
     if not crypto_prices:
         logger.warning("Failed to fetch crypto prices")
-        return
+        return False
 
     logger.info("Saving crypto prices to database")
 
@@ -48,3 +48,6 @@ def run_crypto_workflow(logger):
         logger.info("Report email sent successfully")
     else:
         logger.warning("Report email could not be sent")
+        return False
+
+    return True
