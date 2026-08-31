@@ -1,11 +1,15 @@
 from app.config.settings import REPORT_PATH
-from app.database.db import create_table, get_all_prices, insert_price
-from app.services.email_sender import send_email
-from app.services.fetch_crypto import fetch_crypto_price
-from app.services.report import build_report
 
 
-def run_crypto_workflow(logger):
+def run_crypto_workflow(
+    logger,
+    create_table,
+    fetch_crypto_price,
+    insert_price,
+    get_all_prices,
+    build_report,
+    send_email,
+):
     # Step 1: Create database table
     create_table()
 
