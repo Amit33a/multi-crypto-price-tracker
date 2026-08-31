@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 from app.services.crypto_workflow import run_crypto_workflow
 
@@ -28,15 +28,19 @@ def test_run_crypto_workflow_success():
 
     send_email = MagicMock(return_value=True)
 
-    result = run_crypto_workflow(
-        logger,
-        create_table,
-        fetch_crypto_price,
-        insert_price,
-        get_all_prices,
-        build_report,
-        send_email,
-    )
+    with (
+        patch("builtins.open") as mock_open,
+        patch("builtins.print") as mock_print,
+    ):
+        result = run_crypto_workflow(
+            logger,
+            create_table,
+            fetch_crypto_price,
+            insert_price,
+            get_all_prices,
+            build_report,
+            send_email,
+        )
 
     assert result is True
 
@@ -46,17 +50,17 @@ def test_run_crypto_workflow_success():
     assert insert_price.call_count == 2
 
     get_all_prices.assert_called_once()
-
     build_report.assert_called_once()
-
     send_email.assert_called_once()
+
+    mock_open.assert_called_once()
+    mock_print.assert_called_once_with("Crypto Report")
 
 
 def test_run_crypto_workflow_when_no_prices():
     logger = MagicMock()
 
     create_table = MagicMock()
-
     fetch_crypto_price = MagicMock(return_value={})
 
     insert_price = MagicMock()
