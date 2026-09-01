@@ -9,7 +9,7 @@ def run_crypto_workflow(
     get_all_prices,
     build_report,
     send_email,
-):
+) -> bool:
     # Step 1: Create database table
     create_table()
 
