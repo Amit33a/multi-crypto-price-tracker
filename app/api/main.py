@@ -2,8 +2,9 @@ from app.api.dependencies import get_dependencies
 from app.services.crypto_workflow import run_crypto_workflow
 
 
-def create_application():
-    dependencies = get_dependencies()
+def create_application(dependencies=None):
+    if dependencies is None:
+        dependencies = get_dependencies()
 
     def application():
         logger = dependencies["logger"]
