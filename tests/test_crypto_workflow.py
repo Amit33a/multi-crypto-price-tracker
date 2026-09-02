@@ -89,3 +89,29 @@ def test_run_crypto_workflow_when_no_prices():
     send_email.assert_not_called()
 
     logger.warning.assert_called_once_with("Failed to fetch crypto prices")
+
+
+def test_run_crypto_workflow_when_unexpected_error():
+    logger = MagicMock()
+
+    create_table = MagicMock(side_effect=Exception("Database unavailable"))
+
+    fetch_crypto_price = MagicMock()
+    insert_price = MagicMock()
+    get_all_prices = MagicMock()
+    build_report = MagicMock()
+    send_email = MagicMock()
+
+    result = run_crypto_workflow(
+        logger,
+        create_table,
+        fetch_crypto_price,
+        insert_price,
+        get_all_prices,
+        build_report,
+        send_email,
+    )
+
+    assert result is False
+
+    logger.error.assert_called_once_with("Crypto workflow failed: Database unavailable")
